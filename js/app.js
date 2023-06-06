@@ -34,25 +34,36 @@ function printMovieForm(movies) {
   section.innerHTML = movies.reduce((movieList, Item) => {
     const { id, title, poster_path, overview, vote_average } = Item;
 
-    return (movieList += `<div class="posterCard" id=${id} onclick=showId(this)>
+    return (movieList += `<li class="posterCard" id=${id} onclick=showPage(this)>
                                   <img id="movieImage" src="https://image.tmdb.org/t/p/w500${poster_path}">
                                   <h2 id="movieTitle">${title}</h2>
+                                  <button onclick=childClick(this) id=${id}>상세정보</button>
                                   <p class="overview">${overview}</p>
-                                  <p id="movieStar">평점 : ${vote_average}</p>
-                          </div>`);
+                                  <p id="movieStar">⭐️ ${vote_average}</p>
+                          </li>`);
   }, "");
 }
 
+//상세정보 버튼 .
+function childClick(title) {
+  let titleId = title.id;
+  (window.location.href = `/serve.html?id=${titleId}`), "_parents";
+}
+
+
+// 포스터 아이디 뜨기
 function showId(movieId) {
   let id = movieId.id;
   alert(`영화 id: ${id}`);
 }
 
+
+
 async function searchMovie(event) {
   event.preventDefault();
   let text = document.querySelector("#searchMV").value;
   let findMovies = [];
-
+  text = text.replace(/ /g, "");
   const findMovieTitle = new RegExp(text, "i");
 
   if (!text.length) {
@@ -77,3 +88,6 @@ async function searchMovie(event) {
 }
 
 searchButton.addEventListener("click", searchMovie);
+
+
+
