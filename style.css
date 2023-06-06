@@ -1,0 +1,59 @@
+.mainTitle {
+  width: 800px;
+  color: palegoldenrod;
+  background-color: black;
+  text-align: center;
+  margin: 0px auto 0px auto;
+  font-size: 30px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
+    Verdana, sans-serif;
+}
+
+.search {
+  width: 800px;
+  margin: 0px auto 0px auto;
+  padding: 10px 0px 10px 0px;
+  text-align: center;
+}
+
+.search > p {
+  display: inline;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.search > input {
+  width: 500px;
+  height: 30px;
+}
+
+.search > button {
+  width: 50px;
+  height: 35px;
+}
+
+.posterCard {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 350px;
+  height: 700px;
+  margin: 50px auto 20px 5%;
+  display: block;
+  float: left;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.posterCard > img {
+  width: 300px;
+  height: 400px;
+}
+
+.overview {
+  margin: 0 10px 0 10px;
+  text-align: left;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 7; /* 제한 글자의 줄을 7줄로 정해 두었음  */
+  -webkit-box-orient: vertical;
+}
