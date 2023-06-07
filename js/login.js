@@ -38,3 +38,4 @@ function userCheck(uid,pwd) {  // 코멘트 수정시 확인
     }
     console.log("인증성공")
 }
+//test
