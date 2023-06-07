@@ -1,0 +1,68 @@
+/* 전체 폰트, 배경화면, 카드 색상 설정 */
+:root {font-family: 'Noto Sans KR', sans-serif;
+  --bg-header-color: #ececec;
+  --bg-card-color: hsl(0, 0%, 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 100;
+  padding: 100;
+}
+
+/* 전체 설정 */
+body {
+  min-height: 100vh;
+  background-color: var(--bg-header-color);
+}
+
+header{
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+}
+
+button{
+  margin: 3px 20px 0px 50px;
+  height: 40px;
+  border: none;
+  color: #ffffff;
+
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  box-shadow: rgba(200, 200, 200, 0.2) 0px 5px 8px;
+  transition: transform 100ms ease-in;
+}
+
+button:hover {
+  transform: scale(1.04);
+}
+
+
+#cadeMargin{
+  margin: 3px 20px 0px 50px;
+  width: 600px;
+}
+
+.posterCard > img {
+  margin: 0px 20px 0px 70px;
+  width: 200px;
+  border-radius: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: rgba(200, 200, 200, 0.2) 0px 5px 8px;
+}
+
+.posterCard {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  text-justify: auto;
+
+  border-top: 1px solid #888888;
+  border-bottom: 1px solid #888888;
+  margin: 30px 0px;
+}
+
