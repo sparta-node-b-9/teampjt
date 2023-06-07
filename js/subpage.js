@@ -21,17 +21,17 @@ const fetchMovie = async () => {
   )
     .then((res) => res.json())
     .then((data) => {
-      section.innerHTML = `<div class="posterCard" >
-                              <img id="movieImage" src="https://image.tmdb.org/t/p/w500${data.poster_path}" id=${data.id} onclick=showId(this)>
+      section.innerHTML = `<li class="posterCard" >
+                              <img id="movieImage" src="https://image.tmdb.org/t/p/w500${data.poster_path}" id=${data.id}>
+                              <div id="cadeMargin">
                               <h2 id="movieTitle">${data.title}</h2>
+                              <p id="movieStar"> ⭐️ ${data.vote_average}</p>
                               <p class="overview">${data.overview}</p>
-                              <p id="movieStar">평점 : ${data.vote_average}</p>
-                          </div>`;
+                              </div>
+                          </li>`;
     });
   return response;
 };
-
-
 //home 키
 function homeClick() {
   window.location.href = "/index.html";

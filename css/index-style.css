@@ -1,10 +1,16 @@
 /* 전체 폰트, 배경화면, 카드 색상 설정 */
-:root {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+
+:root {font-family:'Noto Sans KR', sans-serif;
   --bg-header-color: #ececec;
   --bg-card-color: hsl(0, 0%, 100%);
 }
+
+* {
+  box-sizing: border-box;
+  margin: 100;
+  padding: 100;
+}
+
 
 /* 전체 설정 */
 body {
