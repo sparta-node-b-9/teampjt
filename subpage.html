@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="subpage.js" defer></script>
+    <script src="sub-review.js" defer></script>
+    <script src="rev-modify.js?ver=1" defer></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <button onclick="homeClick(this)"><img src="/asset/01.png" alt="홈으로 가기" /></button>
+      <h3 class="mainTitle">최고의 평점 영화 콜렉션_ 상세페이지</h3>
+    </header>
+    <section id="card"></section>
+    <form class="login-form">
+      <input type="text" id="id-input" placeholder="ID" />
+      <input type="text" id="pw-input" placeholder="PW" />
+      <button>로그인</button>
+    </form>
+    <form class="review-form">
+      <span id="review-text">리뷰를 작성해주세요</span>
+      <input type="text" id="review-input" placeholder="리뷰를 작성해주세요." />
+      <button id="review-btn">작성</button>
+    </form>
+    <section class="review-list"></section>
+  </body>
+</html>
