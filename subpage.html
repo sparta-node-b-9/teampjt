@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="subpage.js" defer></script>
-    <script src="/components/sub-review.js" defer></script>
-    <script src="/components/sub-login.js" defer></script>
+    <script type="module" src="subpage.js" defer></script>
+    <script type="module" src="/components/sub-review.js" defer></script>
+    <script type="module" src="/components/sub-login.js" defer></script>
+    <link rel="stylesheet" href="sub.css" />
     <title>Document</title>
   </head>
   <body>
@@ -14,7 +15,7 @@
       <button onclick="homeClick(this)"><img src="/asset/01.png" alt="홈으로 가기" /></button>
       <h3 class="mainTitle">최고의 평점 영화 콜렉션_ 상세페이지</h3>
     </header>
-    <p id="user-name" class="user-name">로그인이 필요합니다.</p>
+    <p id="user-name" class="user">로그인이 필요합니다.</p>
     <form class="login-form">
       <input type="text" id="id-input" placeholder="ID" />
       <input type="text" id="pw-input" placeholder="PW" />
