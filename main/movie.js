@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   printPage();
 });
+
 const options = {
   method: "GET",
   headers: {
@@ -19,7 +20,7 @@ const fetchMovie = async () => {
 };
 
 const section = document.querySelector("#card");
-const searchButton = document.querySelector("#searchBtn");
+const searchButton = document.querySelector("#search-btn");
 
 async function printPage() {
   const result = await fetchMovie().then((data) => {
@@ -33,26 +34,38 @@ async function printPage() {
 function printMovieForm(movies) {
   section.innerHTML = movies.reduce((movieList, Item) => {
     const { id, title, poster_path, overview, vote_average } = Item;
-
-    return (movieList += `<div class="posterCard" id=${id} onclick=showId(this)>
-                                  <img id="movieImage" src="https://image.tmdb.org/t/p/w500${poster_path}">
-                                  <h2 id="movieTitle">${title}</h2>
-                                  <p class="overview">${overview}</p>
-                                  <p id="movieStar">평점 : ${vote_average}</p>
-                          </div>`);
+    return (movieList += `<li class="posterCard" id=${id} >
+                          <img class="posterImg" onclick=childClick(this) id=${id} src="https://image.tmdb.org/t/p/w500${poster_path}">
+                          <h2 id="movieTitle">${title}</h2>
+                          <p class="overview">${overview}</p>
+                          <p id="movieStar"> ⭐️ ${vote_average}</p>
+                          </li>`);
   }, "");
 }
 
-function showId(movieId) {
-  let id = movieId.id;
-  alert(`영화 id: ${id}`);
+section.addEventListener("click", (event) => {
+  console.log(event.target);
+  console.log(event.currentTarget);
+  if (event.target === event.currentTarget) return;
+  if (event.target.matches(".posterCard")) {
+    alert(event.target.id);
+  } else if (!event.target.classList.contains("posterImg")) {
+    alert(event.target.parentNode.id);
+  }
+});
+
+//상세정보 버튼 .
+function childClick(title) {
+  let titleId = title.id;
+  (window.location.href = `/sub/subpage.html?id=${titleId}`), "_parents";
 }
 
 async function searchMovie(event) {
   event.preventDefault();
-  let text = document.querySelector("#searchMV").value;
-  let findMovies = [];
 
+  let text = document.querySelector("#search-mv").value;
+  text = text.replace(/ /g, "");
+  let findMovies = [];
   const findMovieTitle = new RegExp(text, "i");
 
   if (!text.length) {

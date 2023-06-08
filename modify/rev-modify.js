@@ -2,38 +2,40 @@ document.addEventListener("DOMContentLoaded", () => {
   printPage();
 });
 
-const closeBtn = document.querySelector("#close-btn");
-const modifyBtn = document.querySelector("#modify-btn");
-const savedReview = document.querySelector("#saved-review");
-const userName = document.querySelector("#user-name");
-let reviewLists = [];
-reviewLists = JSON.parse(localStorage.getItem("review"));
-let popupRid = searchParam("rid");
-let popupId = searchParam("id");
-let userReview = reviewLists.filter((review) => review.rid === parseInt(popupRid));
-
 function searchParam(key) {
   return new URLSearchParams(location.search).get(key);
 }
 
-function printPage() {
-  let userId = popupId;
-  userName.innerText = userId;
+const savedReview = document.querySelector("#saved-review");
 
-  savedReview.value = userReview[0].review;
-  modifyBtn.addEventListener("click", modifyReview);
+let reviewLists = [];
+let popupRid = searchParam("rid");
+reviewLists = JSON.parse(localStorage.getItem("review"));
+let userReview = reviewLists.filter((review) => review.rid === parseInt(popupRid));
+
+function modifySave() {
+  localStorage.setItem("review", JSON.stringify(reviewLists));
 }
 
-function modifyReview() {
+function printPage() {
+  let userId = searchParam("id");
+
+  document.querySelector("#user-name").innerText = userId;
+  savedReview.value = userReview[0].review;
+}
+
+function modify() {
   if (!savedReview.value) {
     alert("리뷰내용이 없습니다.");
   } else if (savedReview.value === userReview[0].review) {
     alert("변경사항이 없습니다.");
-  } else if (savedReview.valeu !== userReview[0].review) {
+  } else {
     alert("수정완료");
+
     opener.parent.location.reload();
     window.close();
   }
+
   reviewLists = reviewLists.map((review) => {
     if (review.rid === parseInt(popupRid)) {
       return {
@@ -43,15 +45,9 @@ function modifyReview() {
     }
     return review;
   });
+
   modifySave();
 }
 
-function modifySave() {
-  localStorage.setItem("review", JSON.stringify(reviewLists));
-}
-
-modifyBtn.addEventListener("click", modifyReview);
-
-closeBtn.addEventListener("click", function () {
-  window.close();
-});
+document.querySelector("#modify-btn").addEventListener("click", modify);
+document.querySelector("#close-btn").addEventListener("click", () => window.close());
