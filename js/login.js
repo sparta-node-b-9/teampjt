@@ -1,12 +1,26 @@
+const logInBtn = document.querySelector("#logInBtn")
+const logOutBtn = document.querySelector("#logOutBtn")
 function localStorageSave() {// 저장
-    let idInput = document.getElementById('login-input-user').value;
-    let pwdInput = document.getElementById('login-input-password').value;//비번 인풋 엘레먼트
-    let commentInput = document.getElementById('login-input-comment').value;//아이디 인풋 엘레먼트
-    let chkRemember = document.getElementById('login-remember').value;//아이디 저장 여부 체크박스 엘레먼트(비밀번호는X)
+    let idInput = document.getElementById('loginInputUser').value;
+    let pwdInput = document.getElementById('loginInputPassword').value;
 
-    let data = userData(userTime(),idInput,pwdInput);
-    localStorage.setItem(userTime(),data);
-
+    if(specialCharacters(idInput))
+    {
+        alert("id에 특수문자는 사용 불가능 합니다.")
+        if(specialCharacters(pwdInput))
+        {
+            alert("password에 특수문자는 사용 불가능 합니다.")
+            return;
+        }
+        return;
+    }
+    if(Check(idInput,pwdInput)==true)
+        {
+            let data = userData(userTime(),idInput,pwdInput);
+            localStorage.setItem(userTime(),data);
+            alert(`${id}님 환영합니다.`)
+            userNameChange(id)
+        }
     }
 
 function userTime() { //현재시간 받아오기
@@ -25,17 +39,57 @@ function userData(uid,id,pwd) {//받은 정보를 묶기
         return jsonobj;
     }
 
-function logOut() { // localStorage 리셋
-    localStorage.clear();
+function logOut() { // localStorage 해당 key값 삭제
+    let userName = document.getElementById("userName").textContent;
+    for(let i =0; i<localStorage.length; i++)
+    {   
+        let key = localStorage.key(i);
+        let value = localStorage.getItem(key)
+        let a = JSON.parse(value)
+        if(userName == a.id)
+        {
+            alert(`${userName}님 로그아웃됬습니다.`)
+            userNameChange("로그인해주세요")
+            localStorage.removeItem(key)
+        }
+    }
 }
 
-function userCheck(uid,pwd) {  // 코멘트 수정시 확인 
-    let userData = localStorage.getItem(uid);
-    let userPwd = JSON.parse(userData)
-    if(!userPwd.pwd == pwd)
-    {
-        console.log("인증실패")
+function Check(id,password) {
+    for(let i =0; i<localStorage.length; i++)
+    {   
+        let key = localStorage.key(i);
+        let value = localStorage.getItem(key)
+        let a = JSON.parse(value)
+        if(id == a.id && password == a.pwd)
+        {
+            alert(`${id}님 환영합니다.`)
+            userNameChange(id)
+            return false;
+        }
+        else if(id == a.id)
+        {
+            alert("id가 기존유저와 중복됩니다.")
+            return false;
+        }
     }
-    console.log("인증성공")
+    return true;
 }
-//test
+function userNameChange(id) { // 유저 이름 변경
+    let userName = document.getElementById("userName").innerText=id;
+}
+window.onload = function() {
+}
+
+logInBtn.addEventListener('click', localStorageSave)
+logOutBtn.addEventListener("click", logOut)
+
+function specialCharacters(obj) // 특수문자 검사
+{
+    let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/;
+    if(regExp.test(obj))
+    {
+        return true;
+    }
+    return false;
+}
