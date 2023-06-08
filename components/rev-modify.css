@@ -1,0 +1,76 @@
+/* <div class="titlemsg">
+span class="review-user"
+<input type="text" class="edit-review" 
+mbtn
+cbtn */
+:root {
+  --bg-header-color: #ececec;
+}
+
+body {
+  background-color: var(--bg-header-color);
+}
+
+.titlemsg {
+  background-color: white;
+  text-align: center;
+  margin: 5% auto;
+  width: 90%;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.review-box {
+  margin: auto;
+}
+
+.review-user {
+  margin: auto;
+}
+
+.edit-review {
+  max-width: 450px;
+  width: 440px;
+  height: 100px;
+  border-radius: 10px;
+  resize: none;
+}
+
+textarea {
+  padding: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.btn-box {
+  margin: 20px 0px 0px 30%;
+}
+
+.btn-box > button {
+  background-color: white;
+  border-radius: 10px;
+  width: 100px;
+  height: 40px;
+}
+
+.review-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-right: 5px;
+}
+
+.review-user {
+  font-size: 20px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 10px;
+  height: 100px;
+  margin-right: 10px;
+  padding: 0px 5px 0px 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
