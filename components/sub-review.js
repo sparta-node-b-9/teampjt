@@ -7,6 +7,8 @@ const reviewForm = document.querySelector(".review-form");
 const savedReview = localStorage.getItem("review");
 const userId = JSON.parse(localStorage.getItem("login")); // ?.[0]. optional-chaining
 let currInfo = userId.filter((e) => e.id === currUser);
+const likeBtn = document.createElement("button");
+const disLikeBtn = document.createElement("button");
 
 // localstorage에 저장할 리뷰리스트 선언
 let reviewLists = [];
@@ -29,6 +31,8 @@ function movieReview(event) {
       uid: currInfo[0].uid,
       rid: Date.now(),
       review: reviewInput.value,
+      like: 0,
+      disLike: 0,
     };
     reviewLists.push(reviewObj);
     reviewSave();
@@ -37,6 +41,8 @@ function movieReview(event) {
   }
 }
 
+// 누르고 있는 리뷰 rid값과 저장소의 rid값이 같은 경우
+
 // 작성한 리뷰를 화면에 출력해주는 함수
 // li에 각각 고유 rid값을 저장하여 수정/삭제 시 해당 rid 값만 변경되도록 작성
 function printReview(user) {
@@ -44,9 +50,12 @@ function printReview(user) {
   const li = document.createElement("li");
   li.setAttribute("data-rid", user.rid);
 
+  const nameTag = document.createElement("span");
+  nameTag.innerText = user.id;
+  li.appendChild(nameTag);
+
   const reviewText = document.createElement("span");
   reviewText.innerText = user.review;
-
   li.appendChild(reviewText);
 
   const modifyBtn = document.createElement("button");
@@ -61,6 +70,10 @@ function printReview(user) {
 
   li.appendChild(modifyBtn);
   li.appendChild(delBtn);
+  likeBtn.innerText = `👍`;
+  li.appendChild(likeBtn);
+  disLikeBtn.innerText = `👎`;
+  li.appendChild(disLikeBtn);
 
   ul.appendChild(li);
   section2.appendChild(ul);
@@ -75,6 +88,36 @@ function printReview(user) {
     delBtn.style.visibility = "hidden";
   }
 }
+
+// 좋아요/싫어요 개수 출력 함수
+function printLikes(like, disLike) {
+  if (like) {
+    likeBtn.innerText = `${like}👍`;
+  } else {
+    disLikeBtn.innerText = `${disLike}👎`;
+  }
+}
+
+// 좋아요/싫어요 함수
+// 삭제함수와 동일하게 li에 저장된 rid값을 가져오고 버튼 클릭 시 숫자가 누적
+function likes(event) {
+  const li = event.target.parentElement;
+  const rid = li.getAttribute("data-rid");
+  const review = reviewLists.filter((review) => review.rid === parseInt(rid));
+  review[0].like = parseInt(review[0].like) + 1;
+  printLikes(review[0].like, 0);
+  reviewSave();
+}
+
+function disLikes(event) {
+  const li = event.target.parentElement;
+  const rid = li.getAttribute("data-rid");
+  const review = reviewLists.filter((review) => review.rid === parseInt(rid));
+  review[0].disLike = parseInt(review[0].disLike) + 1;
+  printLikes(0, review[0].disLike);
+  reviewSave();
+}
+
 // 삭제함수
 // li에 저장된 rid값을 가져오고, 화면에서 삭제한 뒤 filter함수로 localstorage에 있는 rid값과 비교
 // 비교 한 뒤 해당 값만 뺀 리뷰리스트를 localstorage에 저장
@@ -110,3 +153,7 @@ if (savedReview) {
   let filteredReivew = reviewLists.filter((review) => review.movieId === movieId); // 각 영화마다 달린 리뷰만 보일 수 있게 movieId로 구분
   filteredReivew.forEach(printReview); // 삭제 후에 새로고침해도 화면에 출력됨
 }
+
+likeBtn.addEventListener("click", likes);
+
+disLikeBtn.addEventListener("click", disLikes);
