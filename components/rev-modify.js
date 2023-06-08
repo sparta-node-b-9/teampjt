@@ -9,15 +9,15 @@ const userName = document.querySelector("#user-name");
 let reviewLists = [];
 reviewLists = JSON.parse(localStorage.getItem("review"));
 let popupRid = searchParam("rid");
+let popupId = searchParam("id");
 let userReview = reviewLists.filter((review) => review.rid === parseInt(popupRid));
-let area = document.querySelector("#saved-review");
 
 function searchParam(key) {
   return new URLSearchParams(location.search).get(key);
 }
 
 function printPage() {
-  let userId = "이상훈"; // 창범님이 만드시면 받아야하는 아이디
+  let userId = popupId;
   userName.innerText = userId;
 
   savedReview.value = userReview[0].review;
@@ -55,18 +55,3 @@ modifyBtn.addEventListener("click", modifyReview);
 closeBtn.addEventListener("click", function () {
   window.close();
 });
-
-function checkLength(area) {
-  let text = area.value;
-  let testLength = text.length;
-
-  let maxLength = 50;
-
-  if (testLength > maxLength) {
-    alert(maxLength + "자 이상 작성할 수 없습니다");
-    area.value = text;
-    area.focus();
-  }
-}
-
-area.addEventListener("onkeypress", checkLength);

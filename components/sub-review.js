@@ -1,35 +1,19 @@
-const idInput = document.querySelector("#id-input");
-const pwInput = document.querySelector("#pw-input");
-const login = document.querySelector(".login-form");
-const savedInfo = localStorage.getItem("login");
-
-let logins = [];
-
-login.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const newObj = {
-    id: idInput.value,
-    pw: pwInput.value,
-    uid: Date.now(),
-  };
-  (idInput.value = ""), (pwInput.value = ""), logins.push(newObj);
-  localStorage.setItem("login", JSON.stringify(logins));
-});
+import { currUser } from "/components/sub-login.js";
+import { movieId } from "/subpage.js";
 
 const section2 = document.querySelector(".review-list");
 const reviewInput = document.querySelector("#review-input");
 const reviewForm = document.querySelector(".review-form");
 const savedReview = localStorage.getItem("review");
-const userId = 1686185945638;
-// JSON.parse(localStorage.getItem("login"))?.[0].uid; // optional-chaining
-// 현재 로그인 아이디 값을 가져와야 함 / 수정필요
+const userId = JSON.parse(localStorage.getItem("login")); // ?.[0]. optional-chaining
+let currInfo = userId.filter((e) => e.id === currUser);
 
 // localstorage에 저장할 리뷰리스트 선언
 let reviewLists = [];
 // 값을 지정하면 같이 넘어가는지 확인 필요
 
 // 객체를 JSON 형태로 저장
-function save() {
+function reviewSave() {
   localStorage.setItem("review", JSON.stringify(reviewLists));
 }
 
@@ -37,18 +21,17 @@ function save() {
 // rid값을 넣어서 수정/삭제 버튼 작동 시 같은 rid값만 변경되게 구현
 // input값 입력 후 ("") 초기화
 function movieReview(event) {
-  console.log(event);
   event.preventDefault();
-  let uid = 1686185945638;
   if (reviewInput.value) {
     const reviewObj = {
       movieId: movieId,
-      uid: uid,
+      id: currInfo[0].id,
+      uid: currInfo[0].uid,
       rid: Date.now(),
       review: reviewInput.value,
     };
     reviewLists.push(reviewObj);
-    save();
+    reviewSave();
     printReview(reviewObj);
     reviewInput.value = "";
   }
@@ -66,15 +49,15 @@ function printReview(user) {
 
   li.appendChild(reviewText);
 
-  const delBtn = document.createElement("button");
-  delBtn.innerText = "❌";
-  delBtn.addEventListener("click", del);
-  delBtn.style.visibility = "hidden";
-
   const modifyBtn = document.createElement("button");
   modifyBtn.innerText = "수정";
   modifyBtn.addEventListener("click", modify);
   modifyBtn.style.visibility = "hidden";
+
+  const delBtn = document.createElement("button");
+  delBtn.innerText = "❌";
+  delBtn.addEventListener("click", del);
+  delBtn.style.visibility = "hidden";
 
   li.appendChild(modifyBtn);
   li.appendChild(delBtn);
@@ -82,24 +65,25 @@ function printReview(user) {
   ul.appendChild(li);
   section2.appendChild(ul);
 
-  if (userId === user.uid) {
-    delBtn.style.visibility = "visible";
+  // none으로 하면 css가 깨질수도 있음 => 요소가 있었는데 갑자기 사라지니까
+  // hidden으로 하면 개발자도구에서 보이는 단점이 있음
+  if (currInfo[0].uid === user.uid) {
     modifyBtn.style.visibility = "visible";
+    delBtn.style.visibility = "visible";
   } else {
-    delBtn.style.visibility = "hidden";
     modifyBtn.style.visibility = "hidden";
+    delBtn.style.visibility = "hidden";
   }
 }
-
 // 삭제함수
 // li에 저장된 rid값을 가져오고, 화면에서 삭제한 뒤 filter함수로 localstorage에 있는 rid값과 비교
 // 비교 한 뒤 해당 값만 뺀 리뷰리스트를 localstorage에 저장
 function del(event) {
   const li = event.target.parentElement;
   const rid = li.getAttribute("data-rid");
-  li.remove();
-  reviewLists = reviewLists.filter((review) => review.rid !== parseInt(rid));
-  save();
+  li.remove(); // 화면에서 해당 리뷰를 삭제
+  reviewLists = reviewLists.filter((review) => review.rid !== parseInt(rid)); // 로컬스토리지에 있는 리뷰들 중 rid값이 일치하지 않는 리뷰만 필터링
+  reviewSave(); //필터링된 리뷰를 저장
 }
 
 // 수정함수
@@ -111,7 +95,7 @@ function del(event) {
 function modify(event) {
   const li = event.target.parentElement;
   const rid = li.getAttribute("data-rid");
-  const url = `/modify.html?rid=${rid}`;
+  const url = `/components/rev-modify.html?rid=${rid}&id=${currInfo[0].id}`;
   let left = (window.screen.width - 600) / 2;
   let top = (window.screen.height - 500) / 2;
   let options =
@@ -119,64 +103,10 @@ function modify(event) {
   window.open(url, "_blank", options);
 }
 reviewForm.addEventListener("submit", movieReview);
-// localstorage에 저장된 리뷰를 JSON형태를 풀어서 객체형태로 불러온다.
+
 if (savedReview) {
   const parsedReview = JSON.parse(savedReview);
   reviewLists = parsedReview;
-  filteredReivew = reviewLists.filter((review) => review.movieId === parseInt(movieId));
-  filteredReivew.forEach(printReview); // 새로고침해도 남아있음
+  let filteredReivew = reviewLists.filter((review) => review.movieId === movieId); // 각 영화마다 달린 리뷰만 보일 수 있게 movieId로 구분
+  filteredReivew.forEach(printReview); // 삭제 후에 새로고침해도 화면에 출력됨
 }
-
-// 여기는 로그인과 연동해야함
-// if (savedInfo) {
-//   if (savedInfo) {
-//     const parsedInfo = JSON.parse(savedInfo);
-//     logins = parsedInfo;
-//   }
-// }
-
-// function modify(event) {
-//   const li = event.target.parentElement;
-//   const rid = li.getAttribute("data-rid");
-//   const reviewText = li.querySelector("span"); // 리뷰 내용을 담고 있는 span 요소
-
-//   // 기존 리뷰 내용을 가져와서 수정 가능한 폼 요소로 교체
-//   const modifyReview = reviewText.innerText;
-//   const modifyInput = document.createElement("input");
-//   modifyInput.value = modifyReview;
-//   li.replaceChild(modifyInput, reviewText);
-
-//   // 수정 완료 버튼 생성
-//   const confirmBtn = document.createElement("button");
-//   confirmBtn.innerText = "확인";
-//   li.appendChild(confirmBtn);
-
-//   confirmBtn.addEventListener("click", function () {
-//     // 변경된 리뷰 내용을 가져옴
-//     const updatedReview = modifyInput.value;
-
-//     // 리뷰 내용을 다시 span 요소로 변경
-//     const newReview = document.createElement("span");
-//     newReview.innerText = updatedReview;
-//     li.replaceChild(newReview, modifyInput);
-//     li.removeChild(confirmBtn);
-
-//     // 리뷰 리스트에서 해당 리뷰를 찾아 업데이트
-//     reviewLists = reviewLists.map((review) => {
-//       if (review.rid === parseInt(rid)) {
-//         return {
-//           ...review,
-//           review: updatedReview,
-//         };
-//       }
-//       return review;
-//     });
-//     save(); // 변경된 리뷰를 저장
-//   });
-// }
-
-// &userId=${userId}
-
-// export, import 시 section이 null로 들어가서 발생하는 문제
-// 소스코드가 좀 꼬인 것 같음
-// modify.js에서
