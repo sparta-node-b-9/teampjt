@@ -1,0 +1,140 @@
+/* 전체 폰트, 배경화면, 카드 색상 설정 */
+:root {
+  font-family: "Noto Sans KR", sans-serif;
+  --bg-header-color: #ececec;
+  --bg-card-color: hsl(0, 0%, 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 100;
+  padding: 100;
+}
+
+body {
+  background-color: var(--bg-header-color);
+}
+
+header {
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+}
+
+/* 홈버튼 */
+#homeBtn {
+  margin: 3px 20px 0px 100px;
+  padding: 1px;
+  height: 35px;
+
+  background-color: #ffffff;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  box-shadow: rgba(200, 200, 200, 0.2) 0px 5px 8px;
+  transition: transform 100ms ease-in;
+}
+
+#homeBtn:hover {
+  transform: scale(1.04);
+}
+
+/* 로그인 영역 */
+#user-name {
+margin: 10px 100px 10px 100px;
+font-size: 15px;
+}
+
+.login-form{
+  margin: 10px 100px 10px 100px;
+  display: grid;
+  flex-direction: center;
+  align-items: left;
+  justify-content: left;
+}
+
+.login-form > input{
+  margin: 0px
+}
+
+
+#logout-btn {
+  margin: 10px 100px 10px 100px;
+}
+
+/* 영화 상세 정보 */
+#cadeMargin {
+  display: grid;
+}
+
+.posterCard > img {
+  margin: 30px 40px 30px 40px;
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: rgba(200, 200, 200, 0.2) 0px 5px 8px;
+}
+
+.posterCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 100px 30px 100px;
+
+  font-size: large;
+  border-top: 1px solid #888888;
+  border-bottom: 1px solid #888888;
+}
+
+/* 댓글 영역 */
+.review-form {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  justify-content: center;
+  margin: auto 230px auto 230px;
+}
+
+.review-list {
+  margin: 30px 250px 30px 250px;
+  line-height: 40px;
+}
+
+input {
+  height: 40px;
+  border-radius: 8px;
+  flex: 1;
+  padding: 0 12px;
+
+  margin: 0px 0px 0px 20px;
+
+  border: none;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: rgba(200, 200, 200, 0.2) 0px 5px 8px;
+}
+
+button {
+  width: 55px;
+  height: 40px;
+  margin: 0px 5px 0px 5px;
+
+  outline: none;
+  border: none;
+  border: 1px solid rgb(0, 0, 0);
+
+  
+  background-color: #ffffff;
+
+  border-radius: 8px;
+  box-shadow: rgba(200, 200, 200, 0.2) 0px 5px 8px;
+  transition: transform 100ms ease-in;
+}
+
+button:hover {
+  transform: scale(1.04);
+}
+
+.review-list > ul > li > span {
+   display:block;
+}
