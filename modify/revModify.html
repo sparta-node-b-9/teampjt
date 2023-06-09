@@ -4,22 +4,19 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/modify/rev-modify.css" />
-    <script src="/modify/rev-modify.js?ver=1" defer></script>
+    <link rel="stylesheet" href="/modify/revModify.css" />
+    <script src="/modify/revModify.js?ver=1" defer></script>
     <!-- 이 코드로 자바스크립트를 선언하면 브라우저는 이전에 처리한 js나 css파일을 캐쉬에서 불러와 작업하기 때문에
     내가 지금 로컬에 들고있는 파일과 다른 파일을 불러와서 작동한다는 것 -->
     <title>Document</title>
   </head>
 
   <body>
-    <div class="titlemsg">
-      <h1>리뷰 수정</h1>
-    </div>
-
     <div class="review-box">
+      <h1 class="title-msg">리뷰 수정</h1>
       <span class="review-user" id="user-name">유저아이디</span>
-      <textarea class="edit-review" id="saved-review" maxlength="100"></textarea>
-      <div><span id="count">0</span>/<span id="max-count">100</span></div>
+      <textarea class="edit-review" id="saved-review" onkeyup="counter(this,80)"></textarea>
+      <span id="re-count">0/80</span>
     </div>
 
     <div class="btn-box">

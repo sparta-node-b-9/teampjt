@@ -42,10 +42,9 @@ function printMovieForm(movies) {
                           </li>`);
   }, "");
 }
-
+//onclick이 먹히지 않아서 섹션 부분을 클릭하면 id만 나오는 함수
+//img 누르면 바로 이동하고 싶어서 img 누를때에는 id가 alert되지 않도록 설정
 section.addEventListener("click", (event) => {
-  console.log(event.target);
-  console.log(event.currentTarget);
   if (event.target === event.currentTarget) return;
   if (event.target.matches(".posterCard")) {
     alert(event.target.id);
@@ -57,7 +56,7 @@ section.addEventListener("click", (event) => {
 //상세정보 버튼 .
 function childClick(title) {
   let titleId = title.id;
-  (window.location.href = `/sub/subpage.html?id=${titleId}`), "_parents";
+  (window.location.href = `/sub/subPage.html?id=${titleId}`), "_parents";
 }
 
 async function searchMovie(event) {

@@ -22,6 +22,7 @@ function printPage() {
 
   document.querySelector("#user-name").innerText = userId;
   savedReview.value = userReview[0].review;
+  counter(savedReview, 80);
 }
 
 function modify() {
@@ -47,6 +48,20 @@ function modify() {
   });
 
   modifySave();
+}
+
+// 카운팅하는 곳
+function counter(text, length) {
+  const limit = length;
+  const str = text.value.length;
+
+  if (str > limit) {
+    document.getElementById("re-count").innerHTML = "80자 이상 입력했습니다.";
+    text.value = text.value.substring(0, limit);
+    text.focus();
+  }
+
+  document.getElementById("re-count").innerHTML = text.value.length + "/" + limit;
 }
 
 document.querySelector("#modify-btn").addEventListener("click", modify);

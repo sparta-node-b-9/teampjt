@@ -1,9 +1,16 @@
-import { currUser } from "/sub/sub-login.js";
-import { movieId } from "/sub/subpage.js";
+import { currUser } from "/sub/subLogin.js";
+import { movieId } from "/sub/subPage.js";
 
 const savedReview = localStorage.getItem("review");
 const userId = JSON.parse(localStorage.getItem("login")); // ?.[0]. optional-chaining
-let currInfo = userId.filter((e) => e.id === currUser);
+let currInfo = null;
+
+//로그인을 안했을 때의 예외처리를 위한 작업
+if (userId === null) {
+  currInfo = [];
+} else {
+  currInfo = userId.filter((e) => e.id === currUser);
+}
 
 // localstorage에 저장할 리뷰리스트 선언
 let reviewLists = [];
@@ -17,9 +24,16 @@ function reviewSave() {
 // rid값을 넣어서 수정/삭제 버튼 작동 시 같은 rid값만 변경되게 구현
 // input값 입력 후 ("") 초기화
 function movieReview(event) {
+  event.preventDefault();
   const reviewInput = document.querySelector("#review-input");
 
-  event.preventDefault();
+  //예외처리가 꼭 필요함.
+  if (currInfo.length === 0) {
+    alert("로그인 후 이용해 주세요.");
+    reviewInput.value = "";
+    return;
+  }
+
   if (reviewInput.value) {
     const reviewObj = {
       movieId: movieId,
@@ -27,6 +41,8 @@ function movieReview(event) {
       uid: currInfo[0].uid,
       rid: Date.now(),
       review: reviewInput.value,
+      like: 0,
+      disLike: 0,
     };
 
     reviewLists.push(reviewObj);
@@ -46,35 +62,53 @@ function printReview(user) {
   const reviewText = document.createElement("span");
   const modifyBtn = document.createElement("button");
   const delBtn = document.createElement("button");
+  const likeBtn = document.createElement("button");
+  const disLikeBtn = document.createElement("button");
 
   nameTag.innerText = user.id;
   reviewText.innerText = user.review;
   modifyBtn.innerText = "수정";
   delBtn.innerText = "❌";
-  modifyBtn.style.visibility = "hidden";
-  delBtn.style.visibility = "hidden";
+  modifyBtn.style.display = "none";
+  delBtn.style.display = "none";
+  likeBtn.innerText = `${user.like}👍`;
+  disLikeBtn.innerText = `${user.disLike}👎`;
 
+  //한번에 append child하면 각각이 적용되지 않음
   li.setAttribute("review-rid", user.rid);
   li.appendChild(nameTag);
+  li.appendChild(disLikeBtn);
+  li.appendChild(likeBtn);
   li.appendChild(reviewText);
-  li.appendChild(modifyBtn);
   li.appendChild(delBtn);
+  li.appendChild(modifyBtn);
   ul.appendChild(li);
   document.querySelector(".review-list").appendChild(ul);
 
   // none으로 하면 css가 깨질수도 있음 => 요소가 있었는데 갑자기 사라지니까
   // hidden으로 하면 개발자도구에서 보이는 단점이 있음
   if (currInfo[0].uid === user.uid) {
-    modifyBtn.style.visibility = "visible";
-    delBtn.style.visibility = "visible";
+    modifyBtn.style.display = "block";
+    delBtn.style.display = "block";
   } else {
-    modifyBtn.style.visibility = "hidden";
-    delBtn.style.visibility = "hidden";
+    modifyBtn.style.display = "none";
+    delBtn.style.display = "none";
   }
 
   modifyBtn.addEventListener("click", modifyReview);
   delBtn.addEventListener("click", deleteReview);
+  likeBtn.addEventListener("click", () => {
+    user.like++;
+    likeBtn.innerText = `${user.like}👍`;
+    reviewSave();
+  });
+  disLikeBtn.addEventListener("click", () => {
+    user.disLike++;
+    disLikeBtn.innerText = `${user.disLike}👎`;
+    reviewSave();
+  });
 }
+
 // 삭제함수
 // li에 저장된 rid값을 가져오고, 화면에서 삭제한 뒤 filter함수로 localstorage에 있는 rid값과 비교
 // 비교 한 뒤 해당 값만 뺀 리뷰리스트를 localstorage에 저장
@@ -96,7 +130,7 @@ function deleteReview(event) {
 function modifyReview(event) {
   const li = event.target.parentElement;
   const rid = li.getAttribute("review-rid");
-  const url = `/modify/rev-modify.html?rid=${rid}&id=${currInfo[0].id}`;
+  const url = `/modify/revModify.html?rid=${rid}&id=${currInfo[0].id}`;
 
   let left = (window.screen.width - 600) / 2;
   let top = (window.screen.height - 500) / 2;
