@@ -42,8 +42,9 @@ function printMovieForm(movies) {
                           </li>`);
   }, "");
 }
-//onclick이 먹히지 않아서 섹션 부분을 클릭하면 id만 나오는 함수
-//img 누르면 바로 이동하고 싶어서 img 누를때에는 id가 alert되지 않도록 설정
+
+//섹션 부분을 클릭하면 id만 나오도록 하는 함수 구현
+//img 누르면 바로 서브페이지로 이동하기 위해 img 누를때는 id가 alert되지 않도록 설정
 section.addEventListener("click", (event) => {
   if (event.target === event.currentTarget) return;
   if (event.target.matches(".posterCard")) {
@@ -53,12 +54,15 @@ section.addEventListener("click", (event) => {
   }
 });
 
-//상세정보 버튼 .
+//상세정보로 이동하는 함수
 function childClick(title) {
   let titleId = title.id;
   (window.location.href = `/sub/subPage.html?id=${titleId}`), "_parents";
 }
 
+//영화를 검색하는 함수
+//간단한 유효성 검사
+//정규형을 통해 입력 받은 검색어의 공백과 대소문자를 구분하지 않고 검색이 되도록 설정
 async function searchMovie(event) {
   event.preventDefault();
 

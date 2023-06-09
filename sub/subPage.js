@@ -1,5 +1,6 @@
 export let movieId = searchParam("id");
 
+// 쿼리스트링을 통해 movieId를 전달 받음.
 function searchParam(key) {
   return new URLSearchParams(location.search).get(key);
 }
@@ -20,6 +21,7 @@ const options = {
 const section = document.querySelector("#card");
 const homeBtn = document.querySelector("#homeBtn");
 
+//해당 movieId의 정보를 출력(서브페이지 출력 부분)
 const fetchMovie = async () => {
   const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}`, options)
     .then((res) => res.json())
@@ -36,7 +38,7 @@ const fetchMovie = async () => {
   return response;
 };
 
-//home 키
+//home으로 이동하는 함수
 function homeClick() {
   window.location.href = "/main/movie.html";
 }
