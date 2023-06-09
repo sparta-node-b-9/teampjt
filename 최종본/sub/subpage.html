@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/sub/subPage.js" defer></script>
+    <script type="module" src="/sub/subLogin.js" defer></script>
+    <script type="module" src="/sub/subReview.js" defer></script>
+    <link rel="stylesheet" href="/sub/subPage.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <a id="homeBtn"><img src="/asset/home.png" alt="홈으로 가기" /></a>
+      <h3 class="mainTitle">최고의 평점 영화 콜렉션_ 상세페이지</h3>
+    </header>
+
+    <div class="login-sort">
+      <p id="user-name" class="user">로그인이 필요합니다.</p>
+
+      <form class="login-form">
+        <input type="text" id="id-input" placeholder="ID" />
+        <input type="text" id="pw-input" placeholder="PW" />
+        <button id="login-btn">Login</button>
+      </form>
+      <button id="logout-btn" style="display: none">logout</button>
+    </div>
+
+    <section id="card"></section>
+
+    <form class="review-form">
+      <span id="review-text">리뷰</span>
+      <input type="text" id="review-input" placeholder="감상평을 등록해주세요" />
+      <button id="review-btn">등록</button>
+    </form>
+
+    <section class="review-list"></section>
+  </body>
+</html>
